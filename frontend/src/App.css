@@ -1089,3 +1089,51 @@ ul.CTAs a {
   color: #0B7A3D;       /* Green when clicked */
   outline: none;
 }
+
+@media (max-width: 768px) {
+
+  .restaurant-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .restaurant-image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .web_logo {
+    font-size: 22px;
+  }
+
+  #login_btn {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
+
+  #cart {
+    font-size: 1.2rem;
+  }
+
+  .carousel-container .carousel-item img {
+    height: 250px;
+  }
+
+  .ai-horizontal-box {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .ai-insights-box {
+    width: 100%;
+  }
+
+  .ai-status {
+    width: auto;
+  }
+
+  .user-info span {
+    font-size: 1.2rem;
+  }
+
+}
