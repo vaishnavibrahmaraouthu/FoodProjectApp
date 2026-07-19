@@ -137,15 +137,15 @@ const Home = () => {
         <>
           <section>
             <div className="sort">
-              <button className="sort_veg p-3" onClick={handleToggleVegOnly}>
+              <button className="sort_veg" onClick={handleToggleVegOnly}>
                 {showVegOnly ? "Show All" : "Pure Veg"}
               </button>
 
-              <button className="sort_rev p-3" onClick={handleSortByReviews}>
+              <button className="sort_rev" onClick={handleSortByReviews}>
                 Sort By Reviews
               </button>
 
-              <button className="sort_rate p-3" onClick={handleSortByRatings}>
+              <button className="sort_rate" onClick={handleSortByRatings}>
                 Sort By ratings
               </button>
             </div>
