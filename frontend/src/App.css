@@ -62,9 +62,11 @@ nav {
   background: linear-gradient(135deg, #fa9c23 0%, #ffb347 100%);
   color: white;
   border: none;
-  border-radius: 0.75rem;
-  padding: 0.7rem 1rem;
-  box-shadow: 0 8px 16px rgba(250, 156, 35, 0.18);
+  border-radius: 0.65rem;
+  padding: 0.4rem 0.6rem;
+  box-shadow: 0 4px 10px rgba(250, 156, 35, 0.16);
+  font-size: 0.84rem;
+  min-width: 2.1rem;
 }
 
 #search_btn:hover {
@@ -80,9 +82,11 @@ nav {
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   font-weight: bold;
-  box-shadow: 0 8px 16px rgba(5, 106, 58, 0.2);
-  border-radius: 0.75rem;
-  padding: 0.7rem 0.9rem;
+  box-shadow: 0 4px 10px rgba(5, 106, 58, 0.16);
+  border-radius: 0.65rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.84rem;
+  min-width: 2.1rem;
 }
 
 #voice_btn:hover,
@@ -187,19 +191,69 @@ nav {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 0.3rem 0 0.8rem;
+  margin: 0.2rem 0 0.6rem;
 }
 
 .simple-search-input-group {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  width: min(92%, 720px);
+  gap: 0.3rem;
+  width: min(86%, 620px);
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 0.8rem;
-  padding: 0.3rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 0.75rem 0.8rem;
+  }
+
+  .logo {
+    width: 54%;
+    margin-left: 0;
+    margin-bottom: 0.4rem;
+  }
+
+  .simple-search-form {
+    margin: 0.4rem 0 0.6rem;
+  }
+
+  .simple-search-input-group {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0.3rem;
+  }
+
+  .simple-search-icon {
+    display: none;
+  }
+
+  #search_field {
+    flex: 1 1 100%;
+    order: 1;
+    height: 2rem;
+  }
+
+  .search-type-select {
+    flex: 1 1 45%;
+    order: 2;
+    height: 2rem;
+    min-width: 0;
+  }
+
+  #voice_btn,
+  #search_btn {
+    flex: 0 0 auto;
+    order: 3;
+    height: 2rem;
+    padding: 0.25rem 0.5rem;
+    min-width: 2rem;
+    font-size: 0.78rem;
+  }
 }
 
 .simple-search-icon {
@@ -209,12 +263,12 @@ nav {
 }
 
 #search_field {
-  height: 2.3rem;
-  padding: 0.6rem 0.5rem;
+  height: 2.1rem;
+  padding: 0.5rem 0.45rem;
   border: none;
   box-shadow: none;
-  border-radius: 0.6rem;
-  font-size: 0.92rem;
+  border-radius: 0.55rem;
+  font-size: 0.88rem;
 }
 
 #search_field:focus {
@@ -223,15 +277,15 @@ nav {
 }
 
 .search-type-select {
-  height: 2.3rem;
+  height: 2.1rem;
   border: 1px solid #e5e7eb;
-  border-radius: 0.6rem;
+  border-radius: 0.55rem;
   background-color: #f8faf8;
   color: #056a3a;
-  padding: 0 0.6rem;
-  min-width: 6.3rem;
+  padding: 0 0.5rem;
+  min-width: 5.5rem;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 #login_btn {
@@ -268,6 +322,23 @@ nav {
   font-size: 0.9rem;
 }
 
+@media (max-width: 768px) {
+  #cart {
+    font-size: 1.2rem;
+  }
+
+  #cart_count {
+    font-size: 0.8rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  #login_btn {
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    margin-top: 0;
+  }
+}
+
 /* Home page */
 
 #foodItems_heading {
@@ -289,6 +360,27 @@ nav {
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .restaurant-card {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0.75rem;
+  }
+
+  .restaurant-image {
+    width: 100%;
+    height: 180px;
+  }
+
+  .restaurant-info {
+    width: 100%;
+  }
+
+  .food-image {
+    height: 180px;
+  }
 }
 
 .restaurant-image {
@@ -1223,6 +1315,11 @@ ul.CTAs a {
 
 .sort {
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.9rem;
+  margin-bottom: 0.6rem;
 }
 
 .sort_rate,
@@ -1230,10 +1327,9 @@ ul.CTAs a {
 .sort_veg {
   border: none;
   background: transparent;
-  color: #333333;          /* Darker grey */
+  color: #333333;
   font-size: 15px;
   font-weight: 600;
-  margin-left: 12px;
   cursor: pointer;
   transition: color 0.2s ease;
 }
@@ -1252,6 +1348,18 @@ ul.CTAs a {
 }
 
 @media (max-width: 768px) {
+
+  .sort {
+    justify-content: flex-start;
+    margin-bottom: 0.8rem;
+  }
+
+  .sort_rate,
+  .sort_rev,
+  .sort_veg {
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+  }
 
   .restaurant-card {
     flex-direction: column;
