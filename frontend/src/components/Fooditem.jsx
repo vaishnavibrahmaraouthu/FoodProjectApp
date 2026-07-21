@@ -72,7 +72,13 @@ const Fooditem = ({ fooditem, restaurant }) => {
       return navigate("/users/login");
     }
 
-    dispatch(addItemToCart(fooditem._id, restaurant, quantity));
+    const restId =
+      restaurant ||
+      (typeof fooditem.restaurant === "object"
+        ? fooditem.restaurant?._id
+        : fooditem.restaurant);
+
+    dispatch(addItemToCart(fooditem._id, restId, quantity));
     setShowButtons(true);
   };
 
@@ -87,6 +93,13 @@ const Fooditem = ({ fooditem, restaurant }) => {
 
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">{fooditem.name}</h5>
+
+          {fooditem.restaurant && typeof fooditem.restaurant === "object" && fooditem.restaurant.name && (
+            <p className="text-muted small mb-1">
+              <i className="fa fa-cutlery text-success mr-1" aria-hidden="true"></i>
+              <strong>{fooditem.restaurant.name}</strong>
+            </p>
+          )}
 
           <p className="fooditem_des">{fooditem.description}</p>
 

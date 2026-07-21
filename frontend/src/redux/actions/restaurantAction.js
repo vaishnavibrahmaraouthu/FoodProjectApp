@@ -9,19 +9,31 @@ import api from "../../utils/api";
 
 //get all restaurants
 export const getRestaurants = createAsyncThunk(
-    "restaurants/getRestaurants",async(keyword =" ",{rejectWithValue}) =>{
-       try{
-        //API call
-        const {data} = await api.get(`/v1/eats/stores?keyword=${keyword}`);
-        console.log("Fetched restaurants",data);
-        return {
-            restaurants : data.restaurants,
-            count : data.count,
+    "restaurants/getRestaurants",
+    async (args = {}, { rejectWithValue }) => {
+       try {
+        let queryStr = "";
+        if (typeof args === "string") {
+          queryStr = `keyword=${encodeURIComponent(args.trim())}`;
+        } else if (typeof args === "object") {
+          const params = new URLSearchParams();
+          if (args.keyword && args.keyword.trim()) params.append("keyword", args.keyword.trim());
+          if (args.cuisine && args.cuisine.trim()) params.append("cuisine", args.cuisine.trim());
+          queryStr = params.toString();
         }
-       }catch(error){
+        //API call
+        const { data } = await api.get(`/v1/eats/stores?${queryStr}`);
+        console.log("Fetched restaurants", data);
+        return {
+            restaurants: data.restaurants,
+            count: data.count,
+            foodItems: data.foodItems || [],
+        };
+       } catch (error) {
          return rejectWithValue(error.response?.data?.message || error.message);
        }
-    })
+    }
+);
 
  //create restaurant - admin
  

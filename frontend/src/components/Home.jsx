@@ -10,6 +10,7 @@ import {
   getRestaurants,
 } from "../redux/actions/restaurantAction";
 import Restaurant from "./Restaurant";
+import Fooditem from "./Fooditem";
 import Loader from "./layout/Loader";
 import Message from "./Message";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +25,7 @@ const Home = () => {
     loading: restaurantsLoading,
     error: restaurantsError,
     restaurants,
+    searchedFoodItems,
     showVegOnly,
     creating,
     createError,
@@ -150,8 +152,38 @@ const Home = () => {
               </button>
             </div>
 
-            <div className="row mt-4">
-              {/* ✅ FIXED HERE */}
+            {/* Food Items Search Results */}
+            {keyword && searchedFoodItems && searchedFoodItems.length > 0 && (
+              <div className="search-fooditems-section my-4 p-3 bg-white rounded shadow-sm">
+                <h3 className="text-success mb-3">
+                  <i className="fa fa-cutlery mr-2" aria-hidden="true"></i>
+                  Dishes / Food Items matching "{keyword}" ({searchedFoodItems.length}):
+                </h3>
+                <div className="row">
+                  {searchedFoodItems.map((fooditem) => (
+                    <Fooditem
+                      key={fooditem._id}
+                      fooditem={fooditem}
+                      restaurant={
+                        typeof fooditem.restaurant === "object"
+                          ? fooditem.restaurant?._id
+                          : fooditem.restaurant
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Restaurants Section */}
+            {keyword && (
+              <h3 className="mt-4 text-secondary">
+                <i className="fa fa-building mr-2" aria-hidden="true"></i>
+                Restaurants matching "{keyword}":
+              </h3>
+            )}
+
+            <div className="row mt-3">
               {restaurants && restaurants.length > 0 ? (
                 restaurants.map((restaurant) =>
                   !showVegOnly || restaurant.isVeg ? (

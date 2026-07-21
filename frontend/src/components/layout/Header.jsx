@@ -34,13 +34,7 @@ const Header = () => {
 
         {/* search */}
         <div className="col-12 col-md-6 mt-2 mt-md-0">
-          <Routes>
-            <Route path="/" element={<Search />} />
-            <Route
-              path="/eats/stores/search/:keyword"
-              element={<Search />}
-            />
-          </Routes>
+          <Search />
         </div>
 
         {/* right side */}

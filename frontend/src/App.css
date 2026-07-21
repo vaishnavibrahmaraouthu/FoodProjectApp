@@ -59,7 +59,123 @@ nav {
 }
 
 #search_btn {
-  margin-left: -100%;
+  background-color: #fa9c23;
+  color: white;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+#search_btn:hover {
+  background-color: #e08b1a;
+  color: white;
+}
+
+#voice_btn,
+.voice-search-btn {
+  background: linear-gradient(135deg, #078347 0%, #056a3a 100%);
+  color: #ffffff;
+  border: 1px solid rgba(250, 156, 35, 0.5);
+  transition: all 0.3s ease;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+#voice_btn:hover,
+.voice-search-btn:hover {
+  background: linear-gradient(135deg, #fa9c23 0%, #e08b1a 100%);
+  color: #ffffff;
+  border-color: #fa9c23;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(250, 156, 35, 0.3);
+}
+
+#voice_btn.listening,
+.voice-search-btn.listening {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+  color: #ffffff !important;
+  border-color: #ff6b6b !important;
+  animation: pulse-mic 1.2s infinite;
+}
+
+@keyframes pulse-mic {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    transform: scale(1);
+  }
+}
+
+/* Cuisine Filter Styling */
+.cuisine-filter-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cuisine-title {
+  color: #056a3a;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.cuisine-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cuisine-pill {
+  background-color: #f1f8f4;
+  color: #056a3a;
+  border: 1px solid #c8e6c9;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.cuisine-pill:hover {
+  background-color: #078347;
+  color: #ffffff;
+  border-color: #078347;
+}
+
+.cuisine-pill.active {
+  background-color: #fa9c23 !important;
+  color: #ffffff !important;
+  border-color: #fa9c23 !important;
+  box-shadow: 0 2px 6px rgba(250, 156, 35, 0.4);
+}
+
+.cuisine-badge {
+  background: #e8f5e9;
+  color: #056a3a;
+  border: 1px solid #a5d6a7;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.menu-search-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e0e0e0;
 }
 
 .input-group {

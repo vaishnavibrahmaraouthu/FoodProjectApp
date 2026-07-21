@@ -17,7 +17,7 @@ const errorMiddleware = require("./middlewares/errors");
 app.use(
   cors({
     // origin: "https://oderit-ai-foodproject.netlify.app",
-    origin:"https://oderit-ai-foodproject.netlify.app",
+    origin:["http://localhost:5173","https://oderit-ai-foodproject.netlify.app"],
     credentials: true,
   }),
 );

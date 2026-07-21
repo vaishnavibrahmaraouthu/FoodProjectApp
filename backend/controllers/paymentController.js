@@ -7,6 +7,7 @@ console.log("KEY", process.env.STRIPE_SECRET_KEY);
 
 exports.processPayment = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body);
+  console.log("FRONTEND_URL =", process.env.FRONTEND_URL);
   const session = await stripe.checkout.sessions.create({
     customer_email: req.user.email,
     phone_number_collection: {
