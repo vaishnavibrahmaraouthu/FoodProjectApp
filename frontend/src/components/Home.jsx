@@ -15,11 +15,14 @@ import Loader from "./layout/Loader";
 import Message from "./Message";
 import { useDispatch, useSelector } from "react-redux";
 import CountRestaurant from "./CountRestaurant";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { keyword } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchType = searchParams.get("searchType") || "all";
 
   const {
     loading: restaurantsLoading,
@@ -39,10 +42,10 @@ const Home = () => {
 
   useEffect(() => {
     if (restaurantsError) {
-      return alert.error(restaurantsError);
+      return;
     }
-    dispatch(getRestaurants(keyword));
-  }, [dispatch, restaurantsError, keyword]);
+    dispatch(getRestaurants({ keyword, searchType }));
+  }, [dispatch, restaurantsError, keyword, searchType]);
 
   const handleSortByRatings = () => {
     dispatch(sortByRatings());
@@ -128,6 +131,16 @@ const Home = () => {
     dispatch(toggleVegOnly());
   };
 
+  const normalizedSearchType =
+    searchType === "restaurant"
+      ? "restaurant"
+      : searchType === "fooditem"
+        ? "fooditem"
+        : "all";
+
+  const showFoodResults = Boolean(keyword) && (normalizedSearchType === "all" || normalizedSearchType === "fooditem");
+  const showRestaurantResults = Boolean(keyword) && (normalizedSearchType === "all" || normalizedSearchType === "restaurant");
+
   return (
     <>
       <CountRestaurant />
@@ -153,30 +166,40 @@ const Home = () => {
             </div>
 
             {/* Food Items Search Results */}
-            {keyword && searchedFoodItems && searchedFoodItems.length > 0 && (
+            {showFoodResults && (
               <div className="search-fooditems-section my-4 p-3 bg-white rounded shadow-sm">
                 <h3 className="text-success mb-3">
                   <i className="fa fa-cutlery mr-2" aria-hidden="true"></i>
-                  Dishes / Food Items matching "{keyword}" ({searchedFoodItems.length}):
+                  {normalizedSearchType === "fooditem"
+                    ? `Food Items matching "${keyword}"`
+                    : `Dishes / Food Items matching "${keyword}"`}
+                  {searchedFoodItems?.length > 0 ? ` (${searchedFoodItems.length})` : ""}
                 </h3>
-                <div className="row">
-                  {searchedFoodItems.map((fooditem) => (
-                    <Fooditem
-                      key={fooditem._id}
-                      fooditem={fooditem}
-                      restaurant={
-                        typeof fooditem.restaurant === "object"
-                          ? fooditem.restaurant?._id
-                          : fooditem.restaurant
-                      }
-                    />
-                  ))}
-                </div>
+
+                {searchedFoodItems && searchedFoodItems.length > 0 ? (
+                  <div className="row">
+                    {searchedFoodItems.map((fooditem) => (
+                      <Fooditem
+                        key={fooditem._id}
+                        fooditem={fooditem}
+                        restaurant={
+                          typeof fooditem.restaurant === "object"
+                            ? fooditem.restaurant?._id
+                            : fooditem.restaurant
+                        }
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <Message variant="info">
+                    No food items found for "{keyword}".
+                  </Message>
+                )}
               </div>
             )}
 
             {/* Restaurants Section */}
-            {keyword && (
+            {showRestaurantResults && (
               <h3 className="mt-4 text-secondary">
                 <i className="fa fa-building mr-2" aria-hidden="true"></i>
                 Restaurants matching "{keyword}":

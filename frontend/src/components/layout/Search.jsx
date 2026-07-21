@@ -3,13 +3,27 @@ import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const [keyword, setKeyword] = useState("");
+  const [searchType, setSearchType] = useState("all");
   const [isListening, setIsListening] = useState(false);
   const navigate = useNavigate();
   const recognitionRef = useRef(null);
 
-  const performSearch = (query) => {
-    if (query && query.trim()) {
-      navigate(`/eats/stores/search/${query.trim()}`);
+  const performSearch = (query, type = searchType) => {
+    const cleanedQuery = query?.trim();
+
+    if (cleanedQuery) {
+      const params = new URLSearchParams();
+      params.set("keyword", cleanedQuery);
+
+      if (type && type !== "all") {
+        params.set("searchType", type);
+      }
+
+      const queryString = params.toString();
+      navigate({
+        pathname: `/eats/stores/search/${encodeURIComponent(cleanedQuery)}`,
+        search: queryString ? `?${queryString}` : "",
+      });
     } else {
       navigate("/");
     }
@@ -17,7 +31,7 @@ const Search = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
-    performSearch(keyword);
+    performSearch(keyword, searchType);
   };
 
   const toggleVoiceSearch = () => {
@@ -58,7 +72,7 @@ const Search = () => {
 
         if (event.results[0] && event.results[0].isFinal) {
           setIsListening(false);
-          performSearch(transcript);
+          performSearch(transcript, searchType);
         }
       };
 
@@ -88,41 +102,50 @@ const Search = () => {
   }, []);
 
   return (
-    <form onSubmit={searchHandler}>
-      <div className="input-group">
+    <form onSubmit={searchHandler} className="simple-search-form">
+      <div className="simple-search-input-group">
+        <i className="fa fa-search simple-search-icon" aria-hidden="true"></i>
+
         <input
           type="text"
           id="search_field"
           className="form-control"
           placeholder={
             isListening
-              ? "Listening... Speak food item or restaurant 🎙️"
-              : "Search restaurant or food item (e.g. Pizza, Biryani)..."
+              ? "Listening... speak a restaurant or dish name 🎙️"
+              : "Search restaurants or food items"
           }
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
 
-        <div className="input-group-append">
-          <button
-            type="button"
-            id="voice_btn"
-            className={`btn voice-search-btn ${isListening ? "listening" : ""}`}
-            onClick={toggleVoiceSearch}
-            title={isListening ? "Listening... Click to stop" : "Search by voice"}
-          >
-            <i
-              className={`fa ${
-                isListening ? "fa-microphone-slash" : "fa-microphone"
-              }`}
-              aria-hidden="true"
-            ></i>
-          </button>
+        <select
+          className="search-type-select"
+          value={searchType}
+          onChange={(e) => setSearchType(e.target.value)}
+          aria-label="Search type"
+        >
+          <option value="all">All</option>
+          <option value="restaurant">Restaurants</option>
+          <option value="fooditem">Food Items</option>
+        </select>
 
-          <button id="search_btn" type="submit" className="btn">
-            <i className="fa fa-search" aria-hidden="true"></i>
-          </button>
-        </div>
+        <button
+          type="button"
+          id="voice_btn"
+          className={`btn voice-search-btn ${isListening ? "listening" : ""}`}
+          onClick={toggleVoiceSearch}
+          title={isListening ? "Listening... Click to stop" : "Search by voice"}
+        >
+          <i
+            className={`fa ${isListening ? "fa-microphone-slash" : "fa-microphone"}`}
+            aria-hidden="true"
+          ></i>
+        </button>
+
+        <button id="search_btn" type="submit" className="btn">
+          <i className="fa fa-search" aria-hidden="true"></i>
+        </button>
       </div>
     </form>
   );

@@ -59,25 +59,30 @@ nav {
 }
 
 #search_btn {
-  background-color: #fa9c23;
+  background: linear-gradient(135deg, #fa9c23 0%, #ffb347 100%);
   color: white;
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 8px 16px rgba(250, 156, 35, 0.18);
 }
 
 #search_btn:hover {
-  background-color: #e08b1a;
+  background: linear-gradient(135deg, #e08b1a 0%, #f4a62a 100%);
   color: white;
+  transform: translateY(-1px);
 }
 
 #voice_btn,
 .voice-search-btn {
   background: linear-gradient(135deg, #078347 0%, #056a3a 100%);
   color: #ffffff;
-  border: 1px solid rgba(250, 156, 35, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(5, 106, 58, 0.2);
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.9rem;
 }
 
 #voice_btn:hover,
@@ -86,7 +91,7 @@ nav {
   color: #ffffff;
   border-color: #fa9c23;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(250, 156, 35, 0.3);
+  box-shadow: 0 10px 20px rgba(250, 156, 35, 0.25);
 }
 
 #voice_btn.listening,
@@ -178,15 +183,55 @@ nav {
   border: 1px solid #e0e0e0;
 }
 
-.input-group {
-  width: 90%;
-  margin-right: 35%;
+.simple-search-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0.3rem 0 0.8rem;
+}
+
+.simple-search-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: min(92%, 720px);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.8rem;
+  padding: 0.3rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.simple-search-icon {
+  color: #6b7280;
+  margin-left: 0.5rem;
+  font-size: 0.95rem;
 }
 
 #search_field {
-  height: 2.4rem;
-  padding: 1rem;
-  border-radius: 1rem;
+  height: 2.3rem;
+  padding: 0.6rem 0.5rem;
+  border: none;
+  box-shadow: none;
+  border-radius: 0.6rem;
+  font-size: 0.92rem;
+}
+
+#search_field:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.search-type-select {
+  height: 2.3rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.6rem;
+  background-color: #f8faf8;
+  color: #056a3a;
+  padding: 0 0.6rem;
+  min-width: 6.3rem;
+  font-weight: 600;
+  font-size: 0.85rem;
 }
 
 #login_btn {
