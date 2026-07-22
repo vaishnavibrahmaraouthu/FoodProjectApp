@@ -14,6 +14,10 @@ import { getMenus } from "../redux/actions/menuActions";
 const Fooditem = ({ fooditem, restaurant }) => {
   const [quantity, setQuantity] = useState(1);
   const [showButtons, setShowButtons] = useState(false);
+  const [showNutritionModal, setShowNutritionModal] = useState(false);
+  const [nutritionData, setNutritionData] = useState(null);
+  const [nutritionLoading, setNutritionLoading] = useState(false);
+  const [nutritionError, setNutritionError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,6 +86,89 @@ const Fooditem = ({ fooditem, restaurant }) => {
     setShowButtons(true);
   };
 
+  const getNutritionLevelDetails = (level) => {
+    const normalized = (level || "Moderate").toString().trim();
+
+    if (normalized.toLowerCase() === "healthy choice") {
+      return {
+        label: "Healthy Choice",
+        icon: "🟢",
+        accent: "#16a34a",
+        description: "Light, balanced meals",
+      };
+    }
+
+    if (normalized.toLowerCase() === "indulgent") {
+      return {
+        label: "Indulgent",
+        icon: "🟠",
+        accent: "#f97316",
+        description: "High calories or fat",
+      };
+    }
+
+    if (normalized.toLowerCase() === "treat") {
+      return {
+        label: "Treat",
+        icon: "🔴",
+        accent: "#dc2626",
+        description: "Desserts or sugary drinks",
+      };
+    }
+
+    return {
+      label: "Moderate",
+      icon: "🟡",
+      accent: "#f59e0b",
+      description: "Regular meals",
+    };
+  };
+
+  
+
+  const analyzeNutritionHandler = async () => {
+    setNutritionError("");
+    setNutritionData(null);
+
+    const calories = fooditem.calories;
+    const protein = fooditem.protein;
+    const carbs = fooditem.carbs;
+    const fat = fooditem.fat;
+
+    if (
+      calories === undefined ||
+      protein === undefined ||
+      carbs === undefined ||
+      fat === undefined
+    ) {
+      setNutritionError("Nutrition values are not available for this item.");
+      setShowNutritionModal(true);
+      return;
+    }
+
+    setNutritionLoading(true);
+
+    try {
+      const { data } = await axios.post("/api/v1/ai/nutrition", {
+        name: fooditem.name,
+        calories,
+        protein,
+        carbs,
+        fat,
+      });
+
+      setNutritionData(data.data);
+      setShowNutritionModal(true);
+    } catch (err) {
+      setNutritionError(
+        err.response?.data?.message || "Unable to generate nutrition analysis"
+      );
+      setShowNutritionModal(true);
+    } finally {
+      setNutritionLoading(false);
+    }
+  };
+
   return (
     <div className="col-sm-12 col-md-6 col-lg-3 my-3">
       <div className="card p-3 rounded">
@@ -139,6 +226,14 @@ const Fooditem = ({ fooditem, restaurant }) => {
             </div>
           )}
 
+          <button
+            type="button"
+            className="btn btn-outline-success mt-3 nutrition-btn"
+            onClick={analyzeNutritionHandler}
+          >
+            ✨ Quick Nutrition
+          </button>
+
           <hr />
 
           <p>
@@ -180,6 +275,103 @@ const Fooditem = ({ fooditem, restaurant }) => {
           )} 
         </div>
       </div>
+
+      {showNutritionModal && (
+        <div className="nutrition-modal-overlay">
+          <div className="nutrition-modal">
+            <div className="nutrition-modal-header">
+              <h5>Nutrition Insights</h5>
+              <button
+                className="btn-close"
+                onClick={() => {
+                  setShowNutritionModal(false);
+                  setNutritionData(null);
+                  setNutritionError("");
+                }}
+              />
+            </div>
+
+            {nutritionLoading ? (
+              <div className="nutrition-modal-body">Loading...</div>
+            ) : nutritionError ? (
+              <div className="nutrition-modal-body text-danger">
+                {nutritionError}
+              </div>
+            ) : nutritionData ? (
+              <div className="nutrition-modal-body">
+                <div className="nutrition-hero">
+                  <span className="nutrition-pill">✨ Smart insight</span>
+                  <h4>{fooditem.name}</h4>
+                </div>
+
+                {(() => {
+                  const levelDetails = getNutritionLevelDetails(
+                    nutritionData.nutritionLevel || nutritionData.level || nutritionData.healthScore
+                  );
+
+                  return (
+                    <div className="nutrition-section nutrition-score-card">
+                      <strong>Nutrition Level</strong>
+                      <div className="nutrition-score-row">
+                        <span
+                          className="nutrition-score-label"
+                          style={{ color: levelDetails.accent, fontWeight: 700 }}
+                        >
+                          {levelDetails.icon} {levelDetails.label}
+                        </span>
+                      </div>
+                      <p className="nutrition-summary" style={{ marginTop: "0.4rem" }}>
+                        {levelDetails.description}
+                      </p>
+                    </div>
+                  );
+                })()}
+
+                <div className="nutrition-grid">
+                  <div className="nutrition-card">
+                    <strong>Calories</strong>
+                    <p>{fooditem.calories || "N/A"} kcal</p>
+                  </div>
+                  <div className="nutrition-card">
+                    <strong>Protein</strong>
+                    <p>{fooditem.protein || "N/A"} g</p>
+                  </div>
+                  <div className="nutrition-card">
+                    <strong>Carbs</strong>
+                    <p>{fooditem.carbs || "N/A"} g</p>
+                  </div>
+                  <div className="nutrition-card">
+                    <strong>Fat</strong>
+                    <p>{fooditem.fat || "N/A"} g</p>
+                  </div>
+                </div>
+
+                <div className="nutrition-section">
+  <strong>💡 AI Insight</strong>
+  <p className="nutrition-summary">
+    {nutritionData.insight}
+  </p>
+</div>
+              </div>
+            ) : (
+              <div className="nutrition-modal-body">No analysis data available.</div>
+            )}
+
+            <div className="nutrition-modal-footer">
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  setShowNutritionModal(false);
+                  setNutritionData(null);
+                  setNutritionError("");
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

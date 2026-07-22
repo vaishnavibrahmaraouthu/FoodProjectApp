@@ -5,7 +5,6 @@ import { register} from "../../redux/actions/userActions";
 import { clearErrors } from "../../redux/slices/userSlice";
 
 const AVATAR_OPTIONS = [
-  "/images/avatar1.jpg",
   "/images/avatar2.jpg",
   "/images/avatar3.jpg",
   "/images/avatar4.jpg",

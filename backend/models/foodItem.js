@@ -44,6 +44,23 @@ const foodSchema = new mongoose.Schema({
     maxLength: [5, "foodItems can't exceed 5 characters"],
     default: 0,
   },
+  calories: {
+    type: Number,
+    default: 0,
+  },
+  protein: {
+    type: Number,
+    default: 0,
+  },
+  carbs: {
+    type: Number,
+    default: 0,
+  },
+  fat: {
+    type: Number,
+    default: 0,
+  },
+
   restaurant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Restaurant",

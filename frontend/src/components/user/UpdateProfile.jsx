@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AVATAR_OPTIONS = [
-  "/images/avatar1.jpg",
   "/images/avatar2.jpg",
   "/images/avatar3.jpg",
   "/images/avatar4.jpg",
