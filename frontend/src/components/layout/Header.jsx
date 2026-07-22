@@ -15,6 +15,10 @@ const Header = () => {
   // Updated slice
   const { user, loading } = useSelector((state) => state.user);
   const {cartItems} = useSelector((state => state.cart))
+  const avatarUrl =
+    user?.avatar?.url
+      ? user.avatar.url
+      : "/images/avatar4.jpg";
 
 
   const logoutHandler = () => {
@@ -58,9 +62,13 @@ const Header = () => {
               >
                 <figure className="avatar avatar-nav">
                   <img
-                    src={user?.avatar?.url}
+                    src={avatarUrl}
                     alt={user?.name}
                     className="rounded-circle"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/images/avatar4.jpg";
+                    }}
                   />
                 </figure>
 

@@ -5,6 +5,10 @@ import Loader from "../layout/Loader";
 
 const Profile = () => {
   const { user, loading } = useSelector((state) => state.user);
+  const avatarUrl =
+    user?.avatar?.url
+      ? user.avatar.url
+      : "/images/avatar4.jpg";
 
   return (
     <>
@@ -18,8 +22,12 @@ const Profile = () => {
                 <figure className="avatar avatar-profile text-center mr-3">
                   <img
                     className="rounded-circle figure-img img-fluid"
-                    src={user.avatar.url}
-                    alt={user.name}
+                    src={avatarUrl}
+                    alt={user?.name || "User"}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/images/avatar4.jpg";
+                    }}
                   />
                 </figure>
                 <span>Welcome {user.name}!</span>

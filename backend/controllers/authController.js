@@ -9,6 +9,9 @@ const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const sendToken = require("../utils/sendToken");
 const cloudinary = require("../config/cloudinary");
 
+const DEFAULT_AVATAR_URL = "/images/template.jpeg";
+const isBuiltinAvatar = (avatarUrl) =>
+  typeof avatarUrl === "string" && avatarUrl.startsWith("/") && !avatarUrl.startsWith("http");
 
 // Register user
 exports.signup = catchAsyncErrors(async (req, res, next) => {
@@ -17,14 +20,12 @@ exports.signup = catchAsyncErrors(async (req, res, next) => {
 
   let avatar = {};
 
-  // If avatar not provided OR default avatar
-  if (!req.body.avatar || req.body.avatar === "/images/images.png") {
-
+  // If avatar not provided OR builtin avatar path
+  if (!req.body.avatar || isBuiltinAvatar(req.body.avatar)) {
     avatar = {
       public_id: "default",
-      url: "/images/images.png",
+      url: req.body.avatar || DEFAULT_AVATAR_URL,
     };
-
   } else {
 
     const result = await cloudinary.uploader.upload(req.body.avatar, {
@@ -180,23 +181,31 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   };
 
   if (req.body.avatar !== "") {
+    if (isBuiltinAvatar(req.body.avatar)) {
+      newUserData.avatar = {
+        public_id: "default",
+        url: req.body.avatar,
+      };
+    } else {
+      const user = await User.findById(req.user.id);
 
-    const user = await User.findById(req.user.id);
+      const image_id = user.avatar.public_id;
 
-    const image_id = user.avatar.public_id;
+      if (image_id && image_id !== "default") {
+        await cloudinary.uploader.destroy(image_id);
+      }
 
-    await cloudinary.uploader.destroy(image_id);
+      const result = await cloudinary.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        width: 150,
+        crop: "scale",
+      });
 
-    const result = await cloudinary.uploader.upload(req.body.avatar, {
-      folder: "avatars",
-      width: 150,
-      crop: "scale",
-    });
-
-    newUserData.avatar = {
-      public_id: result.public_id,
-      url: result.secure_url,
-    };
+      newUserData.avatar = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    }
   }
 
   await User.findByIdAndUpdate(req.user.id, newUserData, {

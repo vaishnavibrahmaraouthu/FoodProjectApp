@@ -8,6 +8,8 @@ import { clearErrors } from "../../redux/slices/userSlice";
 
 import { toast } from "react-toastify";
 
+const DEFAULT_AVATAR = "/images/avatar4.jpg";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,6 +46,18 @@ const Login = () => {
         <div className="row wrapper">
           <div className="col-10 col-lg-5">
             <form className="shadow-lg" onSubmit={submitHandler}>
+              <div className="text-center mb-3">
+                <img
+                  src={DEFAULT_AVATAR}
+                  alt="Login avatar"
+                  className="rounded-circle"
+                  style={{ width: "80px", height: "80px", objectFit: "cover" }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = DEFAULT_AVATAR;
+                  }}
+                />
+              </div>
               <h1 className="mb-3">Login</h1>
 
               <div className="form-group">

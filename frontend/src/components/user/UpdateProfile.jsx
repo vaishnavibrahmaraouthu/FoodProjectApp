@@ -14,11 +14,25 @@ import { useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
+const AVATAR_OPTIONS = [
+  "/images/avatar1.jpg",
+  "/images/avatar2.jpg",
+  "/images/avatar3.jpg",
+  "/images/avatar4.jpg",
+  "/images/avatar5.jpg",
+  "/images/avatar6.jpg",
+  "/images/avatar7.jpg",
+  "/images/avatar8.jpg",
+  "/images/avatar9.jpg",
+  "/images/avatar10.jpg",
+];
+const DEFAULT_AVATAR = AVATAR_OPTIONS[0];
+
 const UpdateProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("/images/images.png");
+  const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,7 +46,7 @@ const UpdateProfile = () => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
-      setAvatarPreview(user?.avatar?.url);
+      setAvatarPreview(user?.avatar?.url || DEFAULT_AVATAR);
     }
 
     if (error) {
@@ -68,11 +82,18 @@ const UpdateProfile = () => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setAvatarPreview(reader.result);
-        setAvatar(reader.result);
+        setAvatar(e.target.files[0] ? reader.result : avatar);
       }
     };
 
-    reader.readAsDataURL(e.target.files[0]);
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const chooseAvatar = (url) => {
+    setAvatar(url);
+    setAvatarPreview(url);
   };
 
   return (
@@ -112,6 +133,25 @@ const UpdateProfile = () => {
 
             <div className="form-group">
               <label htmlFor="avatar_upload">Avatar</label>
+              <div className="avatar-options mb-3">
+                {AVATAR_OPTIONS.map((url) => (
+                  <button
+                    type="button"
+                    key={url}
+                    className={`avatar-option ${avatar === url ? "selected" : ""}`}
+                    onClick={() => chooseAvatar(url)}
+                  >
+                    <img
+                      src={url}
+                      alt="Avatar choice"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = DEFAULT_AVATAR;
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
 
               <div className="d-flex align-items-center">
                 <div>
@@ -120,6 +160,7 @@ const UpdateProfile = () => {
                       src={avatarPreview}
                       className="rounded-circle"
                       alt="Avatar Preview"
+                      onError={() => setAvatarPreview(DEFAULT_AVATAR)}
                     />
                   </figure>
                 </div>
@@ -137,7 +178,7 @@ const UpdateProfile = () => {
                     className="custom-file-label"
                     htmlFor="customFile"
                   >
-                    Choose Avatar
+                    Upload Avatar
                   </label>
                 </div>
               </div>
