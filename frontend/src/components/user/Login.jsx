@@ -79,16 +79,20 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-
+              <div  className="text-end mb-3">
               <Link to="/users/forgetPassword" className="float-right mb-4">
                 Forgot Password
               </Link>
+              </div>
 
-              <button className="btn btn-block py3">LOGIN</button>
+              <button className="btn btn-block py-3">LOGIN</button>
 
+              <div className="text-end mt-3">
               <Link to="/users/signup" className="float-right mt-3">
                 NEW USER?
               </Link>
+              </div>
+              
             </form>
           </div>
         </div>

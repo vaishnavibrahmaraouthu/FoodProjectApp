@@ -59,35 +59,6 @@ exports.generateAndSaveFoodAI = catchAsync(async(req,res) =>{
     })
 })
 
-exports.analyzeNutrition = catchAsync(async (req, res) => {
-  const { name, calories, protein, carbs, fat } = req.body;
-
-  if (
-    !name ||
-    calories === undefined ||
-    protein === undefined ||
-    carbs === undefined ||
-    fat === undefined
-  ) {
-    return res.status(400).json({
-      success: false,
-      message: "Name, calories, protein, carbs and fat are required for nutrition analysis",
-    });
-  }
-
-  const aiData = await aiService.generateNutritionAnalysis({
-    name,
-    calories,
-    protein,
-    carbs,
-    fat,
-  });
-
-  res.status(200).json({
-    success: true,
-    data: aiData,
-  });
-});
 
 exports.analyzeRestaurantReviews = catchAsync(async(req,res) =>{
     try{
