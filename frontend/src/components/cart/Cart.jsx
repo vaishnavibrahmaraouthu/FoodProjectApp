@@ -52,17 +52,28 @@ const Cart = () => {
   return (
     <>
       {cartItems.length === 0 ? (
-        <h2 className="mt-5">Your Cart is empty</h2>
+        <div style={{ textAlign: "center", padding: "5rem 1rem" }}>
+          <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>🛒</div>
+          <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700, color: "var(--text-primary)", fontSize: "1.75rem" }}>
+            Your Cart is Empty
+          </h2>
+          <p style={{ color: "var(--text-muted)", marginTop: "0.5rem" }}>
+            Looks like you haven't added anything yet.
+          </p>
+        </div>
       ) : (
         <>
-          <h2 className="mt-5">
-            Your Cart: <b>{cartItems.length} items</b>
-          </h2>
-          <h3 className="mt-5">
-            Restaurant: <b>{restaurant.name}</b>
-          </h3>
+          <div style={{ padding: "1.5rem 0 0.5rem" }}>
+            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, color: "var(--text-primary)", fontSize: "1.6rem" }}>
+              🛒 Your Cart <span style={{ color: "var(--primary)", fontSize: "1.2rem", fontWeight: 600 }}>({cartItems.length} item{cartItems.length !== 1 ? "s" : ""})</span>
+            </h2>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+              📍 Restaurant: <strong style={{ color: "var(--text-secondary)" }}>{restaurant.name}</strong>
+            </p>
+          </div>
 
           <div className="row d-flex justify-content-between cartt">
+
             <div className="col-12 col-lg-8">
               {cartItems.map((item) => (
                 <div className="cart-item" key={item._id}>

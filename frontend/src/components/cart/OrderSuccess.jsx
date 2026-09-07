@@ -38,8 +38,8 @@ const OrderSuccess = () => {
   }, [order, error, dispatch]);
 
   return (
-    <div className="row justify-content-center">
-      <div className="col-6 mt-5 text-center">
+    <div className="order-success-wrapper">
+      <div className="order-success-box">
         <svg
           className="checkmark"
           xmlns="http://www.w3.org/2000/svg"
@@ -59,9 +59,12 @@ const OrderSuccess = () => {
           />
         </svg>
 
-        <h2>Your Order has been placed successfully.</h2>
+        <h2>🎉 Order Placed Successfully!</h2>
+        <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "0.95rem" }}>
+          Your delicious food is being prepared. Sit tight!
+        </p>
 
-        <Link to="/eats/orders/me/myOrders">Go to Orders</Link>
+        <Link to="/eats/orders/me/myOrders">View My Orders →</Link>
       </div>
     </div>
   );

@@ -150,20 +150,32 @@ const Home = () => {
         <Message variant="danger"> {restaurantsError}</Message>
       ) : (
         <>
+          {/* Hero Banner — shown only when no search is active */}
+          {!keyword && (
+            <div className="hero-section">
+              <span className="hero-emoji">🍕</span>
+              <h1 className="hero-title">Hungry? We've Got You Covered.</h1>
+              <p className="hero-subtitle">
+                Explore top-rated restaurants near you and order your favourite dishes in minutes.
+              </p>
+            </div>
+          )}
+
           <section>
             <div className="sort">
               <button className="sort_veg" onClick={handleToggleVegOnly}>
-                {showVegOnly ? "Show All" : "Pure Veg"}
+                {showVegOnly ? "🥗 Show All" : "🌿 Pure Veg"}
               </button>
 
               <button className="sort_rev" onClick={handleSortByReviews}>
-                Sort By Reviews
+                ⭐ Sort By Reviews
               </button>
 
               <button className="sort_rate" onClick={handleSortByRatings}>
-                Sort By ratings
+                🏆 Sort By Ratings
               </button>
             </div>
+
 
             {/* Food Items Search Results */}
             {showFoodResults && (

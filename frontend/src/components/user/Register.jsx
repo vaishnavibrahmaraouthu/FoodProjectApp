@@ -100,7 +100,10 @@ const Register = () => {
             onSubmit={submitHandler}
             encType="multipart/form-data"
           >
-            <h1 className="mb-3">Register</h1>
+            <h1 className="mb-1" style={{ textAlign: "center" }}>Create Account</h1>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", textAlign: "center", marginBottom: "1.25rem" }}>
+              Register and order your favourites 🍔
+            </p>
             <div className="form-group">
               <label htmlFor="name_field">Name</label>
               <input
@@ -148,13 +151,14 @@ const Register = () => {
             <div className="form-group">
               <label htmlFor="phoneNumber_field">Phone Number</label>
               <input
-                type="number"
-                id="phoneNumber_field"
-                className="form-control"
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={onChange}
-              ></input>
+              type="tel"
+              id="phoneNumber_field"
+              className="form-control"
+              name="phoneNumber"
+              value={phoneNumber}
+              onChange={onChange}
+              maxLength="10"
+              />
             </div>
             <div className="form-group">
               <label htmlFor="avatar_upload">Avatar</label>

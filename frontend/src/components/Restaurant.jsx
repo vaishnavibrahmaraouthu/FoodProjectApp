@@ -64,7 +64,7 @@ const Restaurant = ({ restaurant }) => {
     >
       {showAI
         ? "➖ Hide Summary"
-        : "💬 View Review Summary"}
+        : "💬 AI Review Summary"}
     </button>
 
   

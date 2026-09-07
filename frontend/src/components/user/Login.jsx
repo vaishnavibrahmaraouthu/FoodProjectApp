@@ -51,12 +51,15 @@ const Login = () => {
                   src={DEFAULT_AVATAR}
                   alt="Login avatar"
                   className="rounded-circle"
-                  style={{ width: "80px", height: "80px", objectFit: "cover" }}
+                  style={{ width: "72px", height: "72px", objectFit: "cover", border: "3px solid var(--primary)", boxShadow: "var(--shadow-glow-orange)" }}
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = DEFAULT_AVATAR;
                   }}
                 />
+                <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginTop: "0.5rem", marginBottom: 0 }}>
+                  Welcome back 👋
+                </p>
               </div>
               <h1 className="mb-3">Login</h1>
 
@@ -79,18 +82,18 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div  className="text-end mb-3">
-              <Link to="/users/forgetPassword" className="float-right mb-4">
-                Forgot Password
-              </Link>
+              <div className="text-end mb-3">
+                <Link to="/users/forgetPassword" className="float-right mb-4">
+                  Forgot Password?
+                </Link>
               </div>
 
               <button className="btn btn-block py-3">LOGIN</button>
 
-              <div className="text-end mt-3">
-              <Link to="/users/signup" className="float-right mt-3">
-                NEW USER?
-              </Link>
+              <div className="text-center mt-3">
+                <Link to="/users/signup" style={{ color: "var(--text-muted)" }}>
+                  Don't have an account? <span style={{ color: "var(--primary-light)", fontWeight: 600 }}>Sign Up</span>
+                </Link>
               </div>
               
             </form>

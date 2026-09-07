@@ -100,11 +100,14 @@ const Menu = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: "0.5rem 0" }}>
       {loading ? (
-        <p>Loading menus...</p>
+        <div style={{ textAlign: "center", padding: "3rem", color: "var(--text-muted)" }}>
+          <div className="loader" style={{ margin: "0 auto 1rem" }}></div>
+          <p>Loading menus...</p>
+        </div>
       ) : error ? (
-        <p>Error: {error}</p>
+        <p style={{ color: "#f87171", textAlign: "center", padding: "2rem" }}>Error: {error}</p>
       ) : menus && menus.length > 0 ? (
         menus.map((menu) => {
           const deleteMenu = async () => {
@@ -124,9 +127,21 @@ const Menu = () => {
           };
 
           return (
-            <div key={menu._id}>
-              <div className="d-flex align-items-center">
-                <h2 className="mr-2">{menu.category}</h2>
+            <div key={menu._id} style={{ marginBottom: "2.5rem" }}>
+              <div className="d-flex align-items-center" style={{ gap: "0.75rem", marginBottom: "0.75rem" }}>
+                <h2 style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  fontWeight: 700,
+                  fontSize: "1.4rem",
+                  color: "var(--text-primary)",
+                  margin: 0,
+                  background: "linear-gradient(135deg, var(--text-primary) 60%, var(--primary-light) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>
+                  🍽️ {menu.category}
+                </h2>
 
                 {isAuthenticated && user && user.role === "admin" && (
                   <>
@@ -154,7 +169,7 @@ const Menu = () => {
                 )}
               </div>
 
-              <hr />
+              <hr style={{ borderColor: "var(--glass-border)", marginTop: 0 }} />
 
               {menu.items && menu.items.length > 0 ? (
                 <div className="row">
@@ -167,13 +182,16 @@ const Menu = () => {
                   ))}
                 </div>
               ) : (
-                <p>No menus available</p>
+                <p style={{ color: "var(--text-muted)", fontStyle: "italic", padding: "1rem 0" }}>No items in this category yet.</p>
               )}
             </div>
           );
         })
       ) : (
-        <p> No menus Available</p>
+        <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
+          <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🍽️</div>
+          <p style={{ color: "var(--text-muted)" }}>No menus available yet.</p>
+        </div>
       )}
 
       {/* add menu button */}
@@ -181,9 +199,10 @@ const Menu = () => {
         <div className="my-3">
           <button
             className="btn btn-primary"
+            style={{ borderRadius: "999px", padding: "0.55rem 1.4rem", fontWeight: 700 }}
             onClick={() => setShowMenuCreate(true)}
           >
-            + Add Menu
+            ＋ Add Menu Category
           </button>
         </div>
       )}
